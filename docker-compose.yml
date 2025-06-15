@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  diun:
+    image: crazymax/diun:latest
+    container_name: diun
+    command: serve
+    restart: always
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./data:/data"
+    environment:
+      - TZ=Europe/Berlin
+      - LOG_LEVEL=info
+      - LOG_JSON=false
+      - DIUN_WATCH_WORKERS=20
+      - DIUN_WATCH_SCHEDULE=0 */6 * * *
+      - DIUN_WATCH_JITTER=30s
+      - DIUN_PROVIDERS_DOCKER=true
+      - DIUN_PROVIDERS_DOCKER_WATCHBYDEFAULT=true
+      - DIUN_NOTIF_MATRIX_ENABLED=true
+      - DIUN_NOTIF_MATRIX_TARGET=${MATRIX_TARGET}
+      - DIUN_NOTIF_MATRIX_USERNAME=${MATRIX_USERNAME}
+      - DIUN_NOTIF_MATRIX_PASSWORD=${MATRIX_PASSWORD}
+      - DIUN_NOTIF_MATRIX_ROOMS=${MATRIX_ROOM_ID}
+      - DIUN_NOTIF_MATRIX_MESSAGE=${MATRIX_MESSAGE}
